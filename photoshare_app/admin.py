@@ -3,12 +3,26 @@ from django.core.urlresolvers import reverse
 from photoshare_app.models import Photo, Tag, Album
 
 
+class TagInLineAdmin(admin.TabularInline):
+    model = Photo.tags.through
+    extra = 1
+
+
 class TagAdmin(admin.ModelAdmin):
+
+    inlines = [TagInLineAdmin, ]
 
     list_display = ('__unicode__',)
 
 
+class PhotoInLineAdmin(admin.TabularInline):
+    model = Album.photos.through
+    extra = 1
+
+
 class PhotoAdmin(admin.ModelAdmin):
+
+    inlines = [PhotoInLineAdmin, ]
 
     list_display = (
         '__unicode__',  'created_date', 'modified_date', 'owner_link')

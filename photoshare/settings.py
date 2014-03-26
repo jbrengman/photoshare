@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'registration_defaults',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,7 +39,12 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'photoshare_app',
     'south',
+    'bootstrap3',
+    'registration',
 )
+
+if DEBUG is True:
+    INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -82,3 +88,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+ACCOUNT_ACTIVATION_DAYS = 3
