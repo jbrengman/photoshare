@@ -1,0 +1,32 @@
+<nav class="navbar navbar-default" role="navigation">
+   <div class="navbar-header">
+      <a class="navbar-brand" href="/photoshare">PhotoShare</a>
+   </div>
+   <div>
+      <ul class="nav navbar-nav">
+        {% if user.is_authenticated %}
+         <li><a href="{% url 'photoshare_app.views.logout_view' %}">Logout</a></li>
+
+<!--          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+               My Albums
+               <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+               <li><a href="#">jmeter</a></li>
+               <li><a href="#">EJB</a></li>
+               <li><a href="#">Jasper Report</a></li>
+               <li class="divider"></li>
+               <li><a href="#">Separated link</a></li>
+               <li class="divider"></li>
+               <li><a href="#">One more separated link</a></li>
+            </ul>
+         </li> -->
+
+        {% else %}
+         <li><a href="{% url 'photoshare_app.views.login_view' %}">Login</a></li>
+         <li><a href="#">Register</a></li>
+        {% endif %}
+      </ul>
+   </div>
+</nav>

@@ -41,10 +41,9 @@ INSTALLED_APPS = (
     'south',
     'bootstrap3',
     'registration',
+    'storages',
 )
 
-if DEBUG is True:
-    INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -92,4 +91,21 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+
+from configurations import Configuration
+
+
+class Dev(Configuration):
+    DEBUG = True
+
+
 ACCOUNT_ACTIVATION_DAYS = 3
+
+if DEBUG is True:
+    INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
+
+if not DEBUG:
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+    STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+    STATIC_URL = S3_URL

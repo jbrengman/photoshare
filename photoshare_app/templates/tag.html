@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ tag_name }}
+{% endblock title %}
+
+
+{% block content %}
+<div>
+    {% for photo in photos %}
+    <li><img src="{{ photo.image.url }}"></li>
+    {% endfor %}
+</div>
+{% endblock content %}

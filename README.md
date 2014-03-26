@@ -1,0 +1,1 @@
+This is a django application for sharing photos. Users can add and organize photos into albums, and categorize photos by tags.

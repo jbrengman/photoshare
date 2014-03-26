@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+Login to Photoshare
+{% endblock title %}
+
+{% block content %}
+
+<div style="width:20%">
+    <form action="{% url 'photoshare_app.views.login_view' %}" method="post" class="form">
+        {% csrf_token %}
+        {% bootstrap_form authform %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">
+                {% bootstrap_icon "star" %} Login
+            </button>
+        {% endbuttons %}
+    </form>
+</div>
+<a href="{% url 'photoshare_app.views.register_view' %}">
+Click here</a> to register a new account.
+
+{% endblock content %}
