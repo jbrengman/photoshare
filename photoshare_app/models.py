@@ -29,6 +29,7 @@ class Album(models.Model):
     owner = models.ForeignKey(User)
     title = models.CharField(max_length=100)
     photos = models.ManyToManyField(Photo)
+    cover = models.ForeignKey(Photo, related_name='album_cover', null=True, blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 

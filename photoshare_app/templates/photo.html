@@ -4,6 +4,12 @@
 {{ photo.owner }}'s pictures
 {% endblock title %}
 
+{% block head %}
+{{ photo.owner }}'s pictures
+{% endblock head %}
+
 {% block content %}
+
 <img src="{{ photo.image.url }}">
+
 {% endblock content %}

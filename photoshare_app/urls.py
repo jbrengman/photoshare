@@ -11,6 +11,7 @@ urlpatterns = patterns(
     url(r'^(\w+)/albums/$', 'albums_view', name='albums'),
     url(r'^photo/(\d+)/$', 'photo_view', name='photo'),
     url(r'^tag/(\w+)/$', 'tag_view', name='tag'),
+    url(r'^tags/all/$', 'tags_list_view', name='tags'),
     url(r'^login/$', 'login_view', name='login'),
     url(r'^logout/$', 'logout_view', name='logout'),
     url(r'^register/$', 'register_view', name='register'),

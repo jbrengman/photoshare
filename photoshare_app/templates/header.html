@@ -5,6 +5,8 @@
    <div>
       <ul class="nav navbar-nav">
         {% if user.is_authenticated %}
+        <li><a href="{% url 'photoshare_app.views.albums_view' user.username %}">My Albums</a></li>
+        <li><a href="{% url 'photoshare_app.views.tags_list_view' %}">Browse Tags</a></li>
          <li><a href="{% url 'photoshare_app.views.logout_view' %}">Logout</a></li>
 
 <!--          <li class="dropdown">

@@ -9,7 +9,8 @@ def home_view(request):
     if request.user.is_authenticated():
         user_name = request.user.username
         try:
-            albums = Album.objects.filter(owner__username=user_name)
+            albums = (Album.objects.filter(
+                owner__username=user_name).select_related('cover'))
             sorted_albums = albums.order_by('-created_date')
         except User.DoesNotExist:
             raise Http404
@@ -23,7 +24,8 @@ def home_view(request):
 
 def albums_view(request, user_name):
     try:
-        albums = Album.objects.filter(owner__username=user_name)
+        albums = (Album.objects.filter(
+            owner__username=user_name).select_related('cover'))
         sorted_albums = albums.order_by('-created_date')
     except User.DoesNotExist:
         raise Http404
@@ -57,6 +59,15 @@ def tag_view(request, tag_name):
         raise Http404
     context = {'tag_name': tag_name, 'photos': photos}
     return render(request, 'tag.html', context)
+
+
+def tags_list_view(request):
+    try:
+        tags = Tag.objects.all().select_related('photo_set.first')
+    except Tag.DoesNotExist:
+        raise Http404
+    context = {'tags': tags}
+    return render(request, 'tag_list.html', context)
 
 
 def login_view(request):

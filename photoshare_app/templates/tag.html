@@ -1,15 +1,24 @@
 {% extends 'base.html' %}
 
+{% load thumbnail %}
 
 {% block title %}
 {{ tag_name }}
 {% endblock title %}
 
+{% block head %}
+{{ tag_name }}
+{% endblock head %}
 
 {% block content %}
-<div>
     {% for photo in photos %}
-    <li><img src="{{ photo.image.url }}"></li>
+    <div style="float:left">
+        <a href="{% url 'photoshare_app.views.photo_view' photo.id %}">
+            {% thumbnail photo.image "150x150" crop="center" as im %}
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+            </a>
+            {% endthumbnail %}
+        &nbsp;&nbsp;
+    </div>
     {% endfor %}
-</div>
 {% endblock content %}

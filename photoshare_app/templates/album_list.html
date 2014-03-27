@@ -1,17 +1,25 @@
 {% extends 'base.html' %}
 
+{% load thumbnail %}
 
 {% block title %}
 {{ username }}'s Albums
-<br>
-{{ album.title}}
 {% endblock title %}
+
+{% block head %}
+{{ username }}'s Albums
+{% endblock head %}
 
 
 {% block content %}
-<div>
     {% for album in albums %}
-    <li><a href="{% url 'photoshare_app.views.album_view' username album.pk %}">{{ album.title }}</a></li>
+    <div style="float:left">
+        <a href="{% url 'photoshare_app.views.album_view' username album.pk %}">
+            <h4 align="center">{{ album.title }}</h4>
+            {% thumbnail album.cover.image "150x150" crop="center" as im %}
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+            {% endthumbnail %}
+        </a>&nbsp;&nbsp;
+    </div>
     {% endfor %}
-</div>
 {% endblock content %}
