@@ -12,12 +12,22 @@
 
 
 {% block content %}
+
+<h4><a href="{% url 'photoshare_app.views.create_album_view' user.username %}">
+Create a new album
+</a></h4>
+<br>
+
     {% for album in albums %}
-    <div style="float:left">
+    <div style="float: left;">
         <a href="{% url 'photoshare_app.views.album_view' username album.pk %}">
-            <h4 align="center">{{ album.title }}</h4>
+            <h4 align="center">
+                <div style=" width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    {{ album.title }}
+                </div>
+                </h4>
             {% thumbnail album.cover.image "150x150" crop="center" as im %}
-            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                <img style="border: 1px solid #ccc" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
             {% endthumbnail %}
         </a>&nbsp;&nbsp;
     </div>

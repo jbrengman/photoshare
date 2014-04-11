@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
 
 {% block title %}
-{{ photo.owner }}'s pictures
+{{ photo.owner }}'s picture
 {% endblock title %}
 
 {% block head %}
-{{ photo.owner }}'s pictures
+{{ photo.owner }}'s picture
 {% endblock head %}
 
 {% block content %}
-
-<img src="{{ photo.image.url }}">
+<a href="{% url  'photoshare_app.views.edit_photo_view' photo.pk %}">
+<h4>Edit Photo</h4>
+</a>
+<br>
+<img style="border: 1px solid #ccc" src="{{ photo.image.url }}">
 
 {% endblock content %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+New tag
+{% endblock title %}
+
+{% block head %}
+Create a new tag
+{% endblock head %}
+
+{% block content %}
+
+<form action="{% url 'photoshare_app.views.create_tag_view' %}" method="post" class="form">
+    {% csrf_token %}
+    {% bootstrap_form tag_form %}
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">
+            {% bootstrap_icon "tag" %} Create
+        </button>
+    {% endbuttons %}
+</form>
+
+{% endblock content %}

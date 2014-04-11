@@ -12,12 +12,18 @@ Browse Tags
 
 
 {% block content %}
+
+<h3><a href="{% url 'photoshare_app.views.create_tag_view' %}">
+Add a new tag
+</a></h3>
+<br>
+
     {% for tag in tags %}
     <div style="float:left">
         <a href="{% url 'photoshare_app.views.tag_view' tag.name %}">
             <h4 align="center">{{ tag.name }}</h4>
             {% thumbnail tag.photo_set.first.image "150x150" crop="center" as im %}
-            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+            <img style="border: 1px solid #ccc" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
             {% endthumbnail %}
         </a>&nbsp;&nbsp;
     </div>

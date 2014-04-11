@@ -15,7 +15,7 @@
     <div style="float:left">
         <a href="{% url 'photoshare_app.views.photo_view' photo.id %}">
             {% thumbnail photo.image "150x150" crop="center" as im %}
-            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+            <img style="border: 1px solid #ccc" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
             </a>
             {% endthumbnail %}
         &nbsp;&nbsp;

@@ -12,11 +12,17 @@
 
 
 {% block content %}
+
+<h3><a href="{% url 'photoshare_app.views.edit_album_view' user.username album.pk %}">
+Edit album
+</a></h3>
+<br>
+
     {% for photo in album.photos.all %}
     <a href="{% url 'photoshare_app.views.photo_view' photo.id %}">
             {% thumbnail photo.image "150x150" crop="center" as im %}
-                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                <img style="border: 1px solid #ccc" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
             {% endthumbnail %}
-    </a>
+    </a>&nbsp;&nbsp;
     {% endfor %}
 {% endblock content %}

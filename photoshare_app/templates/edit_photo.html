@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+Edit photo
+{% endblock title %}
+
+{% block head %}
+Edit photo
+{% endblock head %}
+
+{% block content %}
+
+<form action="{% url 'photoshare_app.views.edit_photo_view' photo.pk %}" method="post" class="form">
+    {% csrf_token %}
+    {% bootstrap_form edit_photo_form %}
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">
+            {% bootstrap_icon "floppy-save" %} Save
+        </button>
+    {% endbuttons %}
+</form>
+
+{% endblock content %}

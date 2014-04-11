@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+Add photo
+{% endblock title %}
+
+{% block head %}
+Add a new photo
+{% endblock head %}
+
+{% block content %}
+
+<form action="{% url 'photoshare_app.views.create_photo_view' %}" enctype="multipart/form-data" method="post" class="form">
+    {% csrf_token %}
+    {% bootstrap_form photo_form %}
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">
+            {% bootstrap_icon "Camera" %} Add
+        </button>
+    {% endbuttons %}
+</form>
+
+{% endblock content %}

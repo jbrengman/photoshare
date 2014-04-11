@@ -21,11 +21,10 @@ class Base(Configuration):
     # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
     # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = 'secret'
 
     TEMPLATE_DEBUG = True
 
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ['*', ]
 
     # Application definition
 
@@ -64,7 +63,8 @@ class Base(Configuration):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'photoshare'
+            'NAME': 'photoshare',
+            # 'USER': 'postgres',
         }
     }
 
@@ -94,7 +94,7 @@ class Base(Configuration):
 
 class Dev(Base):
     DEBUG = True
-
+    SECRET_KEY = 'secret'
     INSTALLED_APPS = (
         'registration_defaults',
         'django.contrib.admin',
@@ -111,11 +111,3 @@ class Dev(Base):
         'sorl.thumbnail',
     )
     INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
-
-
-class Prod(Base):
-    DEBUG = False
-    AWS_STORAGE_BUCKET_NAME = 'phshare'
-    STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-    S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
-    STATIC_URL = S3_URL

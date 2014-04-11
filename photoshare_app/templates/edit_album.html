@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+Edit album
+{% endblock title %}
+
+{% block head %}
+Edit album
+{% endblock head %}
+
+{% block content %}
+
+<h4>
+Note: Only existing photos may be added to an album. Go to the 
+<a href="{% url 'photoshare_app.views.create_photo_view' %}">
+upload photo</a>
+page to upload new photos.
+</h4>
+<br>
+
+<form action="{% url 'photoshare_app.views.edit_album_view' user.username album.pk %}" method="post" class="form">
+    {% csrf_token %}
+    {% bootstrap_form album_form %}
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">
+            {% bootstrap_icon "floppy-save" %} Save
+        </button>
+    {% endbuttons %}
+</form>
+
+{% endblock content %}
+

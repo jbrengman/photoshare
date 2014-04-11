@@ -13,7 +13,7 @@ class Photo(models.Model):
     owner = models.ForeignKey(User)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
     height = models.IntegerField(blank=True, null=True, default=0)
     width = models.IntegerField(blank=True, null=True, default=0)
     image = models.ImageField(
@@ -28,7 +28,7 @@ class Photo(models.Model):
 class Album(models.Model):
     owner = models.ForeignKey(User)
     title = models.CharField(max_length=100)
-    photos = models.ManyToManyField(Photo)
+    photos = models.ManyToManyField(Photo, blank=True)
     cover = models.ForeignKey(Photo, related_name='album_cover', null=True, blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

@@ -3,6 +3,8 @@ from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from photoshare_app.models import User, Tag, Photo, Album
+from photoshare_app.forms import (
+    TagForm, PhotoForm, NewAlbumForm, AlbumForm)
 
 
 def home_view(request):
@@ -63,7 +65,7 @@ def tag_view(request, tag_name):
 
 def tags_list_view(request):
     try:
-        tags = Tag.objects.all().select_related('photo_set.first')
+        tags = Tag.objects.all()  # .select_related('photo_set.first')
     except Tag.DoesNotExist:
         raise Http404
     context = {'tags': tags}
@@ -94,4 +96,96 @@ def logout_view(request):
 
 
 def register_view(request):
-    return render(request, 'register.html', {})
+    return redirect('/accounts/register')
+
+
+def create_album_view(request, user_name):
+    if request.method == 'POST':
+        form = AlbumForm(request.POST)
+        if form.is_valid():
+            album = form.save(commit=False)
+            album.owner = request.user
+            album.save()
+            album.title = form.cleaned_data.get('title')
+            photos = form.cleaned_data.get('photos')
+            for photo in photos:
+                album.photos.add(photo)
+            album.save()
+            return redirect(album_view, request.user.username, album.pk)
+    else:
+        context = {'album_form': NewAlbumForm()}
+        return render(request, 'create_album.html', context)
+
+
+def edit_album_view(request, user_name, album_id):
+    try:
+        album = Album.objects.get(pk=album_id)
+    except Album.AlbumNotFound:
+        raise Http404
+    if request.method == 'POST':
+        form = AlbumForm(request.POST, instance=album)
+        if form.is_valid():
+            update_album = form.save(commit=False)
+            update_album.title = form.cleaned_data.get('title')
+            photos = form.cleaned_data.get('photos')
+            for photo in photos:
+                album.photos.add(photo)
+            update_album.save()
+            return redirect(album_view, request.user.username, album.pk)
+    else:
+        album_form = AlbumForm(instance=album)
+        context = {'album_form': album_form, 'album': album}
+        return render(request, 'edit_album.html', context)
+
+
+def create_tag_view(request):
+    if request.method == 'POST':
+        form = TagForm(request.POST)
+        if form.is_valid():
+            tag = form.save(commit=False)
+            tag.name = form.cleaned_data.get('name')
+            tag.save()
+            return redirect(tag_view, tag.name)
+    else:
+        context = {'tag_form': TagForm()}
+        return render(request, 'create_tag.html', context)
+
+
+def create_photo_view(request):
+    if request.method == 'POST':
+        form = PhotoForm(request.user, request.POST, request.FILES)
+        if form.is_valid():
+            photo = form.save(commit=False)
+            photo.owner = request.user
+            photo.save()
+            # photo.image = form.cleaned_data.get('image')
+            tags = form.cleaned_data.get('tags')
+            for tag in tags:
+                photo.tags.add(tag)
+            photo.save()
+            return redirect(photo_view, photo.pk)
+    else:
+        context = {'photo_form': PhotoForm(request.user)}
+        return render(request, 'create_photo.html', context)
+
+
+def edit_photo_view(request, photo_id):
+    try:
+        photo = Photo.objects.get(pk=photo_id)
+    except Photo.DoesNotExist:
+        raise Http404
+    if request.method == 'POST':
+        form = PhotoForm(request.user, request.POST, instance=photo)
+        if form.is_valid():
+            update_photo = form.save(commit=False)
+            tags = form.cleaned_data.get('tags')
+            for tag in tags:
+                update_photo.tags.add(tag)
+            update_photo.save()
+            return redirect(photo_view, photo.pk)
+    else:
+        context = {'edit_photo_form': PhotoForm(request.user, instance=photo), 'photo': photo}
+        # photo_form = PhotoForm(request.user, instance=photo)
+        # photo_form.fields['albums'].queryset
+        # context = {'edit_photo_form': photo_form, 'photo': photo}
+        return render(request, 'edit_photo.html', context)
